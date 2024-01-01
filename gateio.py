@@ -5,7 +5,7 @@ import redis
 import asyncio 
 import websockets
 import json
-import random
+import secrets
 
 pool = redis.ConnectionPool(host='54.168.51.34', port=6379, decode_responses=True)  ##decode_response=True，写入的键值对中的value为str类型,无则为字节类型
 
@@ -114,7 +114,7 @@ def on_message(ws, message):
 
 async def sendInitMesg(ws):
     params = wrapEventList(symbols)
-    event_dict={'id':random.randint(0,99999),"method":"depth.subscribe", "params":params}
+    event_dict={'id':secrets.SystemRandom().randint(0,99999),"method":"depth.subscribe", "params":params}
     await ws.send(json.dumps(event_dict)) 
 
 async def handleMessage(ws,URL):
