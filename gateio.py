@@ -38,8 +38,7 @@ def wrapStr2FloatItemList(data_str_list):
 def produceSafisfiedList(old_list,new_list,bid_or_ask):
     for item in new_list:
         price = item[0]
-        amount = item[1]
-        if amount == 0:
+        if (amount := item[1]) == 0:
             for i in range(len(old_list)):
                 if price == old_list[i][0]:
                     old_list.pop(i)
@@ -69,8 +68,8 @@ def on_message(ws, message):
         return
     exchange = 'gateIO'
     symbol = msg['params'][-1].replace('_','')
-    flag = msg['params'][0]     ##Boolean类型，增量更新还是全量更新
-    if flag:
+##Boolean类型，增量更新还是全量更新
+    if flag := msg['params'][0]:
         ###直接设置即可
         dict_value = msg['params'][1]
         asks_after = wrapStr2FloatItemList(dict_value['asks'])
